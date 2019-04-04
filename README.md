@@ -1,6 +1,6 @@
 # leopard-cli
 
-Leopard CLI is a tool for setting up your dev environment quickly so that you can get coding.
+Leopard CLI is a tool for setting up your dev environment with one command so that you can get coding faster 🐆⚡💻.
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/leopard-cli.svg)](https://npmjs.org/package/leopard-cli)

@@ -9,14 +9,11 @@ class Next extends Command {
 
     const packageJSON = await json.jsonBuilder(name, server);
 
-    if (css === 'sass') console.log('creating sass environemnt');
-    if (css === '') console.log('Vanilla CSS');
-
     shell.createProjectFolder(name);
-    shell.installDependencies(name, packageJSON);
-    shell.createDirectoriesAndFiles(name);
-    shell.writeFiles(name);
-    shell.startNext(platform, shell.selectBrowserCommand);
+    shell.installDependencies(name, css, packageJSON);
+    shell.createDirectoriesAndFiles(name, css);
+    shell.writeFiles(name, css);
+    shell.startNext(name, platform, shell.selectBrowserCommand);
   }
 }
 
