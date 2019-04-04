@@ -1,5 +1,4 @@
-leopard-cli
-===========
+# leopard-cli
 
 Leopard CLI is a tool for setting up your dev environment quickly so that you can get coding.
 
@@ -10,11 +9,15 @@ Leopard CLI is a tool for setting up your dev environment quickly so that you ca
 [![License](https://img.shields.io/npm/l/leopard-cli.svg)](https://github.com/NeverEnder4/leopard-cli/blob/master/package.json)
 
 <!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
+
+- [Usage](#usage)
+- [Commands](#commands)
+  <!-- tocstop -->
+
 # Usage
+
 <!-- usage -->
+
 ```sh-session
 $ npm install -g leopard-cli
 $ leopard COMMAND
@@ -26,29 +29,34 @@ USAGE
   $ leopard COMMAND
 ...
 ```
-<!-- usagestop -->
-# Commands
-<!-- commands -->
-* [`leopard hello`](#leopard-hello)
-* [`leopard help [COMMAND]`](#leopard-help-command)
 
-## `leopard hello`
+<!-- usagestop -->
+
+# Commands
+
+<!-- commands -->
+
+- [`leopard next PROJECTNAME`](#leopard-next)
+- [`leopard help [COMMAND]`](#leopard-help-command)
+
+## `leopard next`
 
 Describe the command here
 
 ```
 USAGE
-  $ leopard hello
+  $ leopard next PROJECTNAME
 
 OPTIONS
-  -n, --name=name  name to print
+  -s, --server  Sets up and runs your NextJS project from a custom Express server.
+  -c, --css=PREPROCESSOR  Set up your project with your favorite preprocessor, accepts these arguments (sass).
 
 DESCRIPTION
   ...
   Extra documentation goes here
 ```
 
-_See code: [src\commands\hello.js](https://github.com/NeverEnder4/leopard-cli/blob/v0.0.0/src\commands\hello.js)_
+_See code: [src\commands\next.js](https://github.com/NeverEnder4/leopard-cli/blob/v0.0.0/src\commands\next.js)_
 
 ## `leopard help [COMMAND]`
 
@@ -66,4 +74,5 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.1.6/src\commands\help.ts)_
+
 <!-- commandsstop -->
