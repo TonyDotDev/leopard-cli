@@ -12,7 +12,28 @@ const sassFileInjections = {
   }`,
 };
 
+const expressFileInjections = {
+  import: `const express = require('express');\nconst next = require('next')\n\n`,
+  variables: `const dev = process.env.NODE_ENV !== 'production';\nconst port = process.env.port || 3000;\nconst app = next({ dev });\nconst handle = app.getRequestHandler()\n\n;
+`,
+  serverJS: `app.prepare().then(() => {
+    const server = express();
+
+    // **middleware and routes go here**
+
+    server.get('*', (req, res) => {
+      return handle(req, res);
+    })
+
+    server.listen(port, err => {
+      if (err) throw err;
+      console.log('Listening on PORT ' + port);
+    });
+  });`,
+};
+
 module.exports = {
   sassFileInjections,
   nextFileInjections,
+  expressFileInjections,
 };

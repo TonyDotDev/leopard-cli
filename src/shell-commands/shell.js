@@ -1,42 +1,53 @@
 const shell = require('shelljs');
 const { cli } = require('cli-ux');
 
-const { sassFileInjections, nextFileInjections } = require('./files');
+const {
+  sassFileInjections,
+  nextFileInjections,
+  expressFileInjections,
+} = require('./files');
+
 const sassyCSS = require('./sass');
+const express = require('./express');
 
 shell.config.silent = true;
 
-const createProjectFolder = name => {
-  cli.action.start(`Preparing ${name}`);
-  shell.mkdir(name);
+const createProjectFolder = options => {
+  cli.action.start(`Preparing ${options.name}`);
+  shell.mkdir(options.name);
 };
 
-const installDependencies = (name, css, packageJSON) => {
-  const sass = sassyCSS.getDependencyString(css);
+const installDependencies = (options, packageJSON) => {
+  const sass = sassyCSS.getDependencyString(options.css);
+  const expressJS = express.getDependencyString(options.server);
   cli.action.start(`Installing dependencies`);
-  shell.cd(name);
+  shell.cd(options.name);
   shell.touch('package.json');
   shell.ShellString(packageJSON).to('package.json');
-  shell.exec(`npm i next react react-dom ${sass}`);
+  shell.exec(`npm i next react react-dom ${sass} ${expressJS}`);
+  cli.action.stop();
 };
 
-const createDirectoriesAndFiles = (name, css) => {
+const createDirectoriesAndFiles = options => {
   cli.action.start(`Mking direcories and touching files`);
-  shell.cd(name);
+  shell.cd(options.name);
   shell.mkdir('components');
   shell.mkdir('pages');
-  sassyCSS.createDirectoriesAndFiles(shell, css);
+  express.createDirectoriesAndFiles(shell, options.server);
+  sassyCSS.createDirectoriesAndFiles(shell, options.css);
   shell.cd('pages');
   shell.touch('index.js');
+  cli.action.stop();
 };
 
-const writeFiles = (name, css) => {
+const writeFiles = options => {
   cli.action.start(`Writing files`);
-  const scssImportStatement = css === 'sass' ? sassFileInjections.import : '';
+  const scssImportStatement =
+    options.css === 'sass' ? sassFileInjections.import : '';
   const indexPage = scssImportStatement + nextFileInjections.indexJS;
-  shell.cd(`${name}/pages`);
+  express.writeFiles(shell, options.server, expressFileInjections);
   shell.ShellString(indexPage).to('index.js');
-  sassyCSS.writeFiles(shell, css, sassFileInjections);
+  sassyCSS.writeFiles(shell, options.css, sassFileInjections);
 };
 
 const selectBrowserCommand = platform => {
@@ -49,12 +60,12 @@ const selectBrowserCommand = platform => {
   return script;
 };
 
-startNext = (name, platform, selectBrowserCommand) => {
-  const browserScript = selectBrowserCommand(platform);
+startNext = (options, selectBrowserCommand) => {
+  const browserScript = selectBrowserCommand(options.platform);
   cli.action.stop(
     '\nThe plate has been boiled!\nYou can find your new project at http://localhost:3000\nThank you for using leopard-cli 🐆⚡💻',
   );
-  shell.cd(name);
+  shell.cd(options.name);
   shell.exec(browserScript).exec('npm run dev');
 };
 
