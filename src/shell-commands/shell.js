@@ -5,6 +5,7 @@ const {
   sassFileInjections,
   nextFileInjections,
   expressFileInjections,
+  appJSFileInjections,
 } = require('./files');
 
 const sassyCSS = require('./sass');
@@ -37,6 +38,7 @@ const createDirectoriesAndFiles = options => {
   sassyCSS.createDirectoriesAndFiles(shell, options.css);
   shell.cd('pages');
   shell.touch('index.js');
+  if (options.googleFont) shell.touch('_app.js');
   cli.action.stop();
 };
 
@@ -47,6 +49,15 @@ const writeFiles = options => {
   const indexPage = scssImportStatement + nextFileInjections.indexJS;
   express.writeFiles(shell, options.server, expressFileInjections);
   shell.ShellString(indexPage).to('index.js');
+  if (options.googleFont)
+    shell
+      .ShellString(
+        appJSFileInjections.import +
+          appJSFileInjections.appComponent +
+          appJSFileInjections.renderHeadFunc(options.googleFont) +
+          appJSFileInjections.renderFunc,
+      )
+      .to('_app.js');
   sassyCSS.writeFiles(shell, options.css, sassFileInjections);
 };
 

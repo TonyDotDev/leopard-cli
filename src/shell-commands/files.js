@@ -32,8 +32,41 @@ const expressFileInjections = {
   });`,
 };
 
+const appJSFileInjections = {
+  import: `import App, { Container } from 'next/app';\nimport Head from 'next/head';\n\n`,
+  appComponent: `export default class myApp extends App {
+    static async getInitialProps({ Component, ctx }) {
+      let pageProps = {};
+
+      if (Component.getInitialProps) {
+        pageProps = await Component.getInitialProps(ctx);
+      }
+      return { pageProps };
+    }\n`,
+  renderHeadFunc: googleFont => `renderHead() {
+    return (
+      <Head>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="https://fonts.googleapis.com/css?family=${googleFont}" rel="stylesheet" />
+      </Head>
+    );
+  }\n`,
+  renderFunc: `render() {
+    const { Component, pageProps } = this.props;
+    return (
+      <Container>
+        {this.renderHead()}
+        <Component {...pageProps} />
+        </Container>
+    );
+  }
+}`,
+};
+
 module.exports = {
   sassFileInjections,
   nextFileInjections,
   expressFileInjections,
+  appJSFileInjections,
 };

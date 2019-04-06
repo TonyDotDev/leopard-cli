@@ -9,7 +9,7 @@ class Next extends Command {
 
     if (googleFont[0] === undefined)
       throw new Error(
-        `The (--googleFont, -g) argument was not formatted correctly. Please pass the argument in this format: --googleFont=comic sans-800,400,200`,
+        `The (--googleFont, -g) argument was not formatted correctly. Please pass the argument in this format: --googleFont=Roboto:800,400,200|Heebo:100i,400,500`,
       );
 
     const options = {
@@ -31,18 +31,7 @@ class Next extends Command {
 }
 
 const parseFontFlag = input => {
-  let weight = input.split('-');
-
-  let font = weight.splice(0, 1);
-
-  weight = weight
-    .join()
-    .split(',')
-    .map(fontWeight => parseInt(fontWeight, 10));
-  font = font.join();
-
-  if (!font || !weight || !weight[0]) return undefined;
-  return { font, weight };
+  return input;
 };
 
 Next.description = `Creates a directory with a new NextJS project complete with React and ReactDOM. Your directory will include a pages and components folder.
@@ -64,7 +53,7 @@ Next.flags = {
   server: flags.boolean({
     char: 's',
     description:
-      'Sets up a next project that runs from a custom express server, enter the font name then a dash with no spaces and a comma separated list of font weights.',
+      'Sets up a next project that runs from a custom express server, enter the font name then a dash with no spaces and a comma separated list of font lweights.',
     multiple: false,
     default: false,
     required: false,
