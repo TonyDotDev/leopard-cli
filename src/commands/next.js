@@ -1,5 +1,6 @@
 const { Command, flags } = require('@oclif/command');
 const { cli } = require('cli-ux');
+const shell = require('shelljs');
 
 const shellCommands = require('../shell-commands/shell');
 const json = require('../cli-prompts/json');
@@ -11,6 +12,10 @@ class Next extends Command {
     ).flags;
     const { platform } = this.config;
 
+    const isCustomJSON = await cli.confirm(
+      'Would you like customize package.json fields (Y/N)?',
+    );
+
     const options = {
       name,
       css,
@@ -19,15 +24,21 @@ class Next extends Command {
       platform,
       modules,
       normalize,
+      isCustomJSON,
     };
 
-    const packageJSON = await json.jsonBuilder(cli, options);
+    const packageJSON = await json.jsonBuilder(options, cli);
 
-    shellCommands.createProjectFolder(cli, options, packageJSON);
-    shellCommands.installDependencies(cli, options);
-    shellCommands.createDirectories(cli, options);
-    shellCommands.writeFiles(cli, options);
-    shellCommands.startNext(cli, options, shellCommands.selectBrowserCommand);
+    shellCommands.createProjectFolder(cli, shell, options, packageJSON);
+    shellCommands.installDependencies(cli, shell, options);
+    shellCommands.createDirectories(cli, shell, options);
+    shellCommands.writeFiles(cli, shell, options);
+    shellCommands.startNext(
+      cli,
+      shell,
+      options,
+      shellCommands.selectBrowserCommand,
+    );
   }
 }
 

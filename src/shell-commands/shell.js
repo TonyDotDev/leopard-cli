@@ -1,5 +1,3 @@
-const shell = require('shelljs');
-
 const {
   sassFileInjections,
   nextConfigFileInjections,
@@ -14,16 +12,14 @@ const nextConfig = require('./nextConfig');
 const appPage = require('./app');
 const normalize = require('./normalize');
 
-shell.config.silent = true;
-
-const createProjectFolder = (cli, options, packageJSON) => {
+const createProjectFolder = (cli, shell, options, packageJSON) => {
   cli.action.start(`Preparing ${options.name}`);
   shell.mkdir(options.name);
   shell.cd(options.name);
   shell.ShellString(packageJSON).to('package.json');
 };
 
-const installDependencies = (cli, options) => {
+const installDependencies = (cli, shell, options) => {
   const cssModules = nextConfig.getDependencyStrings(options.modules);
   const sass = sassyCSS.getDependencyString(options.css);
   const expressJS = express.getDependencyString(options.server);
@@ -35,16 +31,15 @@ const installDependencies = (cli, options) => {
   cli.action.stop();
 };
 
-const createDirectories = (cli, options) => {
+const createDirectories = (cli, shell, options) => {
   cli.action.start(`Creating directories`);
-  shell.cd(options.name);
   shell.mkdir('components');
   shell.mkdir('pages');
   sassyCSS.createDirectoriesAndFiles(shell, options.css);
   cli.action.stop();
 };
 
-const writeFiles = (cli, options) => {
+const writeFiles = (cli, shell, options) => {
   cli.action.start(`Writing files`);
   const scssImportStatement =
     options.css === 'sass' ? sassFileInjections.import : '';
@@ -77,7 +72,7 @@ const selectBrowserCommand = platform => {
   return script;
 };
 
-startNext = (cli, options, selectBrowserCommand) => {
+startNext = (cli, shell, options, selectBrowserCommand) => {
   const browserScript = selectBrowserCommand(options.platform);
   cli.action.start(`Spinning up ${options.name}`);
   cli.action.stop(
@@ -85,7 +80,6 @@ startNext = (cli, options, selectBrowserCommand) => {
       options.name
     }\nnpm run dev\n\nThank you for choosing leopard-cli 🐆⚡💻`,
   );
-  shell.cd(options.name);
   shell.exec(browserScript).exec('npm run dev');
 };
 
