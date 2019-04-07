@@ -1,5 +1,4 @@
 const shell = require('shelljs');
-const { cli } = require('cli-ux');
 
 const {
   sassFileInjections,
@@ -13,26 +12,30 @@ const sassyCSS = require('./sass');
 const express = require('./express');
 const nextConfig = require('./nextConfig');
 const appPage = require('./app');
+const normalize = require('./normalize');
 
 shell.config.silent = true;
 
-const createProjectFolder = (options, packageJSON) => {
+const createProjectFolder = (cli, options, packageJSON) => {
   cli.action.start(`Preparing ${options.name}`);
   shell.mkdir(options.name);
   shell.cd(options.name);
   shell.ShellString(packageJSON).to('package.json');
 };
 
-const installDependencies = options => {
+const installDependencies = (cli, options) => {
   const cssModules = nextConfig.getDependencyStrings(options.modules);
   const sass = sassyCSS.getDependencyString(options.css);
   const expressJS = express.getDependencyString(options.server);
+  const normalizeCss = normalize.getDependencyString(options.normalize);
   cli.action.start(`Installing dependencies`);
-  shell.exec(`npm i next react react-dom ${sass} ${expressJS} ${cssModules}`);
+  shell.exec(
+    `npm i next react react-dom ${sass} ${expressJS} ${cssModules} ${normalizeCss}`,
+  );
   cli.action.stop();
 };
 
-const createDirectories = options => {
+const createDirectories = (cli, options) => {
   cli.action.start(`Creating directories`);
   shell.cd(options.name);
   shell.mkdir('components');
@@ -41,18 +44,22 @@ const createDirectories = options => {
   cli.action.stop();
 };
 
-const writeFiles = options => {
+const writeFiles = (cli, options) => {
   cli.action.start(`Writing files`);
   const scssImportStatement =
     options.css === 'sass' ? sassFileInjections.import : '';
   const indexPage = scssImportStatement + nextFileInjections.indexJS;
   shell.cd('pages');
   shell.ShellString(indexPage).to('index.js');
-  appPage.writeFiles(shell, options.googleFont, appJSFileInjections);
+  appPage.writeFiles(
+    shell,
+    options.googleFont,
+    options.normalize,
+    appJSFileInjections,
+  );
   nextConfig.writeFiles(
     shell,
-    options.css,
-    options.modules,
+    options,
     sassFileInjections,
     nextConfigFileInjections,
   );
@@ -70,10 +77,13 @@ const selectBrowserCommand = platform => {
   return script;
 };
 
-startNext = (options, selectBrowserCommand) => {
+startNext = (cli, options, selectBrowserCommand) => {
   const browserScript = selectBrowserCommand(options.platform);
+  cli.action.start(`Spinning up ${options.name}`);
   cli.action.stop(
-    '\nThe plate has been boiled!\nYou can find your new project at http://localhost:3000\nThank you for using leopard-cli 🐆⚡💻',
+    `\nFinished!\n\nYou can find your new project at http://localhost:3000\n\nTo start your project from the terminal:\n\ncd ${
+      options.name
+    }\nnpm run dev\n\nThank you for choosing leopard-cli 🐆⚡💻`,
   );
   shell.cd(options.name);
   shell.exec(browserScript).exec('npm run dev');

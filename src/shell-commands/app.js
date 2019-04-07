@@ -1,12 +1,8 @@
-const createDirectoriesAndFiles = (shell, googleFont) => {
-  if (googleFont) shell.touch('_app.js');
-};
-
-const writeFiles = (shell, googleFont, appJSFileInjections) => {
-  if (googleFont)
+const writeFiles = (shell, googleFont, normalize, appJSFileInjections) => {
+  if (googleFont || normalize)
     shell
       .ShellString(
-        appJSFileInjections.import +
+        appJSFileInjections.import(normalize) +
           appJSFileInjections.appComponent +
           appJSFileInjections.renderHeadFunc(googleFont) +
           appJSFileInjections.renderFunc,

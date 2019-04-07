@@ -1,10 +1,14 @@
 const { Command, flags } = require('@oclif/command');
+const { cli } = require('cli-ux');
+
 const shellCommands = require('../shell-commands/shell');
 const json = require('../cli-prompts/json');
 class Next extends Command {
   async run() {
     const { name } = this.parse(Next).args;
-    const { css, server, googleFont, modules } = this.parse(Next).flags;
+    const { css, server, googleFont, modules, normalize } = this.parse(
+      Next,
+    ).flags;
     const { platform } = this.config;
 
     const options = {
@@ -14,17 +18,16 @@ class Next extends Command {
       googleFont,
       platform,
       modules,
+      normalize,
     };
 
-    console.log(googleFont);
+    const packageJSON = await json.jsonBuilder(cli, options);
 
-    const packageJSON = await json.jsonBuilder(options);
-
-    shellCommands.createProjectFolder(options, packageJSON);
-    shellCommands.installDependencies(options);
-    shellCommands.createDirectories(options);
-    shellCommands.writeFiles(options);
-    shellCommands.startNext(options, shell.selectBrowserCommand);
+    shellCommands.createProjectFolder(cli, options, packageJSON);
+    shellCommands.installDependencies(cli, options);
+    shellCommands.createDirectories(cli, options);
+    shellCommands.writeFiles(cli, options);
+    shellCommands.startNext(cli, options, shellCommands.selectBrowserCommand);
   }
 }
 

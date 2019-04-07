@@ -3,17 +3,23 @@ const nextFileInjections = {
 };
 
 const nextConfigFileInjections = {
-  import: (css, modules) => {
+  import: options => {
     const importSass =
-      css === 'sass' ? `const withSass = require('@zeit/next-sass');` : '';
-    const importModules = modules
-      ? `const withCss = require('@zeit/next-css');`
-      : '';
+      options.css === 'sass'
+        ? `const withSass = require('@zeit/next-sass');`
+        : '';
+    const importModules =
+      options.modules || options.normalize
+        ? `const withCss = require('@zeit/next-css');`
+        : '';
     return `${importModules}\n${importSass}\n\n`;
   },
-  export: (css, modules) => {
-    const exportSass = css === 'sass' ? 'withSass()' : '';
-    const exportModules = modules ? `withCss(${exportSass})` : `${exportSass}`;
+  export: options => {
+    const exportSass = options.css === 'sass' ? 'withSass()' : '';
+    const exportModules =
+      options.modules || options.normalize
+        ? `withCss(${exportSass})`
+        : `${exportSass}`;
     return `module.exports = ${exportModules}`;
   },
 };
@@ -48,7 +54,10 @@ const expressFileInjections = {
 };
 
 const appJSFileInjections = {
-  import: `import App, { Container } from 'next/app';\nimport Head from 'next/head';\n\n`,
+  import: normalize => {
+    const normalizeImport = normalize ? `import 'normalize.css';` : '';
+    return `import App, { Container } from 'next/app';\nimport Head from 'next/head';\n${normalizeImport}\n\n`;
+  },
   appComponent: `export default class myApp extends App {
     static async getInitialProps({ Component, ctx }) {
       let pageProps = {};

@@ -4,23 +4,24 @@ const getDependencyStrings = modules => {
 
 const writeFiles = (
   shell,
-  css,
-  modules,
+  options,
   sassFileInjection,
   configFileInjections,
 ) => {
   shell.cd('../');
-  if (css === 'sass') {
+  if (options.css === 'sass') {
     shell.cd('scss');
     shell.ShellString(sassFileInjection.indexSCSS).to('index.scss');
     shell.cd('../');
   }
-  shell
-    .ShellString(
-      configFileInjections.import(css, modules) +
-        configFileInjections.export(css, modules),
-    )
-    .to('next.config.js');
+  if (options.modules || options.normalize) {
+    shell
+      .ShellString(
+        configFileInjections.import(options) +
+          configFileInjections.export(options),
+      )
+      .to('next.config.js');
+  }
 };
 
 module.exports = {

@@ -1,10 +1,8 @@
-const { cli } = require('cli-ux');
-
-const jsonBuilder = async options => {
+const jsonBuilder = async (cli, options) => {
   const packageJSON = {};
 
   const isDefault = await cli.confirm(
-    'Would you like customize you package.json fields (Y/N)?',
+    'Would you like customize package.json fields (Y/N)?',
   );
 
   if (isDefault) {
