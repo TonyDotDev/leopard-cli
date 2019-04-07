@@ -3,6 +3,7 @@ const { cli } = require('cli-ux');
 
 const {
   sassFileInjections,
+  nextConfigFileInjections,
   nextFileInjections,
   expressFileInjections,
   appJSFileInjections,
@@ -10,35 +11,33 @@ const {
 
 const sassyCSS = require('./sass');
 const express = require('./express');
+const nextConfig = require('./nextConfig');
+const appPage = require('./app');
 
 shell.config.silent = true;
 
-const createProjectFolder = options => {
+const createProjectFolder = (options, packageJSON) => {
   cli.action.start(`Preparing ${options.name}`);
   shell.mkdir(options.name);
+  shell.cd(options.name);
+  shell.ShellString(packageJSON).to('package.json');
 };
 
-const installDependencies = (options, packageJSON) => {
+const installDependencies = options => {
+  const cssModules = nextConfig.getDependencyStrings(options.modules);
   const sass = sassyCSS.getDependencyString(options.css);
   const expressJS = express.getDependencyString(options.server);
   cli.action.start(`Installing dependencies`);
-  shell.cd(options.name);
-  shell.touch('package.json');
-  shell.ShellString(packageJSON).to('package.json');
-  shell.exec(`npm i next react react-dom ${sass} ${expressJS}`);
+  shell.exec(`npm i next react react-dom ${sass} ${expressJS} ${cssModules}`);
   cli.action.stop();
 };
 
-const createDirectoriesAndFiles = options => {
-  cli.action.start(`Mking direcories and touching files`);
+const createDirectories = options => {
+  cli.action.start(`Creating directories`);
   shell.cd(options.name);
   shell.mkdir('components');
   shell.mkdir('pages');
-  express.createDirectoriesAndFiles(shell, options.server);
   sassyCSS.createDirectoriesAndFiles(shell, options.css);
-  shell.cd('pages');
-  shell.touch('index.js');
-  if (options.googleFont) shell.touch('_app.js');
   cli.action.stop();
 };
 
@@ -47,18 +46,18 @@ const writeFiles = options => {
   const scssImportStatement =
     options.css === 'sass' ? sassFileInjections.import : '';
   const indexPage = scssImportStatement + nextFileInjections.indexJS;
-  express.writeFiles(shell, options.server, expressFileInjections);
+  shell.cd('pages');
   shell.ShellString(indexPage).to('index.js');
-  if (options.googleFont)
-    shell
-      .ShellString(
-        appJSFileInjections.import +
-          appJSFileInjections.appComponent +
-          appJSFileInjections.renderHeadFunc(options.googleFont) +
-          appJSFileInjections.renderFunc,
-      )
-      .to('_app.js');
-  sassyCSS.writeFiles(shell, options.css, sassFileInjections);
+  appPage.writeFiles(shell, options.googleFont, appJSFileInjections);
+  nextConfig.writeFiles(
+    shell,
+    options.css,
+    options.modules,
+    sassFileInjections,
+    nextConfigFileInjections,
+  );
+  express.writeFiles(shell, options.server, expressFileInjections);
+  cli.action.stop();
 };
 
 const selectBrowserCommand = platform => {
@@ -83,7 +82,7 @@ startNext = (options, selectBrowserCommand) => {
 module.exports = {
   createProjectFolder,
   installDependencies,
-  createDirectoriesAndFiles,
+  createDirectories,
   writeFiles,
   selectBrowserCommand,
   startNext,

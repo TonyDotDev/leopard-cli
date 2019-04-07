@@ -2,9 +2,24 @@ const nextFileInjections = {
   indexJS: `const index = () => <div><h1>Index Page</h1></div>;\nexport default index;`,
 };
 
+const nextConfigFileInjections = {
+  import: (css, modules) => {
+    const importSass =
+      css === 'sass' ? `const withSass = require('@zeit/next-sass');` : '';
+    const importModules = modules
+      ? `const withCss = require('@zeit/next-css');`
+      : '';
+    return `${importModules}\n${importSass}\n\n`;
+  },
+  export: (css, modules) => {
+    const exportSass = css === 'sass' ? 'withSass()' : '';
+    const exportModules = modules ? `withCss(${exportSass})` : `${exportSass}`;
+    return `module.exports = ${exportModules}`;
+  },
+};
+
 const sassFileInjections = {
   import: `import '../scss/index.scss';\n\n`,
-  config: `const withSass = require('@zeit/next-sass');\nmodule.exports = withSass();`,
   indexSCSS: `h1 {
     color: #3233ef;
     font-size: 200px;
@@ -66,6 +81,7 @@ const appJSFileInjections = {
 
 module.exports = {
   sassFileInjections,
+  nextConfigFileInjections,
   nextFileInjections,
   expressFileInjections,
   appJSFileInjections,

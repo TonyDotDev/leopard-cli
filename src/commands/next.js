@@ -1,16 +1,11 @@
 const { Command, flags } = require('@oclif/command');
-const shell = require('../shell-commands/shell');
+const shellCommands = require('../shell-commands/shell');
 const json = require('../cli-prompts/json');
 class Next extends Command {
   async run() {
     const { name } = this.parse(Next).args;
-    const { css, server, googleFont } = this.parse(Next).flags;
+    const { css, server, googleFont, modules } = this.parse(Next).flags;
     const { platform } = this.config;
-
-    if (googleFont[0] === undefined)
-      throw new Error(
-        `The (--googleFont, -g) argument was not formatted correctly. Please pass the argument in this format: --googleFont=Roboto:800,400,200|Heebo:100i,400,500`,
-      );
 
     const options = {
       name,
@@ -18,20 +13,23 @@ class Next extends Command {
       server,
       googleFont,
       platform,
+      modules,
     };
+
+    console.log(googleFont);
 
     const packageJSON = await json.jsonBuilder(options);
 
-    shell.createProjectFolder(options);
-    shell.installDependencies(options, packageJSON);
-    shell.createDirectoriesAndFiles(options);
-    shell.writeFiles(options);
-    shell.startNext(options, shell.selectBrowserCommand);
+    shellCommands.createProjectFolder(options, packageJSON);
+    shellCommands.installDependencies(options);
+    shellCommands.createDirectories(options);
+    shellCommands.writeFiles(options);
+    shellCommands.startNext(options, shell.selectBrowserCommand);
   }
 }
 
 const parseFontFlag = input => {
-  return input;
+  return input.replace(/\+/g, '|');
 };
 
 Next.description = `Creates a directory with a new NextJS project complete with React and ReactDOM. Your directory will include a pages and components folder.
@@ -53,7 +51,7 @@ Next.flags = {
   server: flags.boolean({
     char: 's',
     description:
-      'Sets up a next project that runs from a custom express server, enter the font name then a dash with no spaces and a comma separated list of font lweights.',
+      'Sets up a next project that runs from a custom express server, enter the font name then a dash with no spaces and a comma separated list of font weights.',
     multiple: false,
     default: false,
     required: false,
@@ -62,10 +60,23 @@ Next.flags = {
     char: 'g',
     description:
       'Adds google font at whatever weights are specified to your custom App.js file',
-    multiple: true,
+    multiple: false,
     default: '',
     required: false,
     parse: parseFontFlag,
+  }),
+  modules: flags.boolean({
+    char: 'm',
+    multiple: false,
+    default: false,
+    required: false,
+  }),
+  normalize: flags.boolean({
+    char: 'n',
+    description: 'Add normalize.css to the_app.js file.',
+    multiple: false,
+    default: false,
+    required: false,
   }),
 };
 
