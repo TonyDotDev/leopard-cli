@@ -1,5 +1,29 @@
 const nextFileInjections = {
-  indexJS: `const index = () => <div><h1>Index Page</h1></div>;\nexport default index;`,
+  indexJS: options => {
+    const cssInJsx =
+      options.css === ''
+        ? '<style jsx global>{`\nbody {\npadding: 0;\nmargin: 0;\ntext-align: center;\ncolor: #121212;\n}\nheader {\nbackground-color: #FFC661;\nheight: 25vh;\nwidth: 100%;\ndisplay: flex;\njustify-content: center;\nalign-items: center;\nborder-bottom: 20px solid #6d6daa;\n}\n\nimg {\nwidth: 40%;\nmin-width: 400px;\ndisplay: block\n}\n\nh1 {\n font-size: 3.5rem;\ncolor: #6D6DAA;\nmargin: 6rem 0 1rem 0;\n}\n\nh2 {\nfont-size: 2.25rem;\ncolor: #6D6DAA;\nmargin: 5rem 0 1rem 0;\n}\n\na {\ntext-decoration: underline;\ntext-decoration-style: dotted;\ncolor: #6D6DAA;\n}\n\nul {\npadding: 0;\nmargin: 0;\nlist-style-type: none;\nline-height: 160%;\nfont-size: 1.5rem;\n}\n\n.instructions {\nline-height: 160%;\n}\n\n`}</style>'
+        : '';
+    return `const index = () => (
+    <div>
+      <header>
+        <img src='https://apettigrew.imgix.net/leopard-cli/logo.svg'/>
+      </header>
+      <h1>${[options.name]}</h1>
+      <ul>
+        <li>To learn more about leopard-cli, check out our <a href='#'>docs</a>.</li>
+        <li>Curious as to what tools you get out of the box with <a href='#'>NextJS</a>?</li>
+        <h2>To start your project from the command line:</h2>
+          <ul className="instructions">
+            <li>cd ${options.name}</li>
+            <li>npm run dev</li>
+            <li>For more scripts, check out your package.json file</li>
+          </ul>
+      </ul>
+      ${cssInJsx}
+    </div>
+  );\nexport default index;`;
+  },
 };
 
 const nextConfigFileInjections = {
@@ -26,11 +50,57 @@ const nextConfigFileInjections = {
 
 const sassFileInjections = {
   import: `import '../scss/index.scss';\n\n`,
-  indexSCSS: `h1 {
-    color: #3233ef;
-    font-size: 200px;
+  indexSCSS: `body {
+    padding: 0;
+    margin: 0;
     text-align: center;
-  }`,
+    color: #121212;
+    }
+    header {
+    background-color: #FFC661;
+    height: 25vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 20px solid #6d6daa;
+    }
+    
+    img {
+    width: 40%;
+    min-width: 400px;
+    display: block
+    }
+    
+    h1 {
+     font-size: 3.5rem;
+    color: #6D6DAA;
+    margin: 6rem 0 1rem 0;
+    }
+    
+    h2 {
+    font-size: 2.25rem;
+    color: #6D6DAA;
+    margin: 5rem 0 1rem 0;
+    }
+    
+    a {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    color: #6D6DAA;
+    }
+    
+    ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    line-height: 160%;
+    font-size: 1.5rem;
+    }
+    
+    .instructions {
+    line-height: 160%;
+    }`,
 };
 
 const expressFileInjections = {

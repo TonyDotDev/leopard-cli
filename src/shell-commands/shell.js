@@ -43,7 +43,7 @@ const writeFiles = (cli, shell, options) => {
   cli.action.start(`Writing files`);
   const scssImportStatement =
     options.css === 'sass' ? sassFileInjections.import : '';
-  const indexPage = scssImportStatement + nextFileInjections.indexJS;
+  const indexPage = scssImportStatement + nextFileInjections.indexJS(options);
   shell.cd('pages');
   shell.ShellString(indexPage).to('index.js');
   appPage.writeFiles(

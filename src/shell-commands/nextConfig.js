@@ -14,7 +14,7 @@ const writeFiles = (
     shell.ShellString(sassFileInjection.indexSCSS).to('index.scss');
     shell.cd('../');
   }
-  if (options.modules || options.normalize) {
+  if (options.modules || options.normalize || options.css) {
     shell
       .ShellString(
         configFileInjections.import(options) +
