@@ -6,7 +6,7 @@ const {
   appJSFileInjections,
 } = require('./files');
 
-const sassyCSS = require('./sass');
+const preProcessor = require('./preProcessor');
 const express = require('./express');
 const nextConfig = require('./nextConfig');
 const appPage = require('./app');
@@ -20,13 +20,13 @@ const createProjectFolder = (cli, shell, options, packageJSON) => {
 };
 
 const installDependencies = (cli, shell, options) => {
-  const cssModules = nextConfig.getDependencyStrings(options.modules);
-  const sass = sassyCSS.getDependencyString(options.css);
+  const cssModules = nextConfig.getDependencyStrings(options);
+  const cssPreProcessor = preProcessor.getDependencyString(options.css);
   const expressJS = express.getDependencyString(options.server);
   const normalizeCss = normalize.getDependencyString(options.normalize);
   cli.action.start(`Installing dependencies`);
   shell.exec(
-    `npm i next react react-dom ${sass} ${expressJS} ${cssModules} ${normalizeCss}`,
+    `npm i next react react-dom ${cssPreProcessor} ${expressJS} ${cssModules} ${normalizeCss}`,
   );
   cli.action.stop();
 };
@@ -35,7 +35,7 @@ const createDirectories = (cli, shell, options) => {
   cli.action.start(`Creating directories`);
   shell.mkdir('components');
   shell.mkdir('pages');
-  sassyCSS.createDirectoriesAndFiles(shell, options.css);
+  preProcessor.createDirectoriesAndFiles(shell, options.css);
   cli.action.stop();
 };
 

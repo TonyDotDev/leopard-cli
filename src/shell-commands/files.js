@@ -28,78 +28,101 @@ const nextFileInjections = {
 
 const nextConfigFileInjections = {
   import: options => {
-    const importSass =
-      options.css === 'sass'
-        ? `const withSass = require('@zeit/next-sass');`
-        : '';
+    let importPreProcessor;
+    switch (options.css) {
+      case 'sass':
+        importPreProcessor = `const withSass = require('@zeit/next-sass');`;
+        break;
+
+      default:
+        importPreProcessor = '';
+        break;
+    }
     const importModules =
       options.modules || options.normalize
         ? `const withCss = require('@zeit/next-css');`
         : '';
-    return `${importModules}\n${importSass}\n\n`;
+    return `${importModules}\n${importPreProcessor}\n\n`;
   },
   export: options => {
-    const exportSass = options.css === 'sass' ? 'withSass()' : '';
-    const exportModules =
+    let exportPreProcessor;
+    switch (options.css) {
+      case 'sass':
+        exportPreProcessor = `withSass()`;
+        break;
+
+      default:
+        exportPreProcessor = '';
+        break;
+    }
+
+    console.log(
+      options.modules,
+      options.css,
+      options.normalize,
+      exportPreProcessor,
+    );
+
+    const exportConfig =
       options.modules || options.normalize
-        ? `withCss(${exportSass})`
-        : `${exportSass}`;
-    return `module.exports = ${exportModules}`;
+        ? `withCss(${exportPreProcessor})`
+        : `${exportPreProcessor}`;
+    return `module.exports = ${exportConfig};`;
   },
 };
 
 const sassFileInjections = {
   import: `import '../scss/index.scss';\n\n`,
   indexSCSS: `body {
-    padding: 0;
-    margin: 0;
-    text-align: center;
-    color: #121212;
-    }
-    header {
-    background-color: #FFC661;
-    height: 25vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-bottom: 20px solid #6d6daa;
-    }
-    
-    img {
-    width: 40%;
-    min-width: 400px;
-    display: block
-    }
-    
-    h1 {
-     font-size: 3.5rem;
-    color: #6D6DAA;
-    margin: 6rem 0 1rem 0;
-    }
-    
-    h2 {
-    font-size: 2.25rem;
-    color: #6D6DAA;
-    margin: 5rem 0 1rem 0;
-    }
-    
-    a {
-    text-decoration: underline;
-    text-decoration-style: dotted;
-    color: #6D6DAA;
-    }
-    
-    ul {
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
-    line-height: 160%;
-    font-size: 1.5rem;
-    }
-    
-    .instructions {
-    line-height: 160%;
+      padding: 0;
+      margin: 0;
+      text-align: center;
+      color: #121212;
+      }
+      header {
+      background-color: #FFC661;
+      height: 25vh;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 20px solid #6d6daa;
+      }
+      
+      img {
+      width: 40%;
+      min-width: 400px;
+      display: block
+      }
+      
+      h1 {
+      font-size: 3.5rem;
+      color: #6D6DAA;
+      margin: 6rem 0 1rem 0;
+      }
+      
+      h2 {
+      font-size: 2.25rem;
+      color: #6D6DAA;
+      margin: 5rem 0 1rem 0;
+      }
+      
+      a {
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      color: #6D6DAA;
+      }
+      
+      ul {
+      padding: 0;
+      margin: 0;
+      list-style-type: none;
+      line-height: 160%;
+      font-size: 1.5rem;
+      }
+      
+      .instructions {
+      line-height: 160%;
     }`,
 };
 
@@ -137,15 +160,20 @@ const appJSFileInjections = {
       }
       return { pageProps };
     }\n`,
-  renderHeadFunc: googleFont => `renderHead() {
+  renderHeadFunc: googleFont => {
+    const googleFontLink = googleFont
+      ? `<link href="https://fonts.googleapis.com/css?family=${googleFont}" rel="stylesheet" />`
+      : '';
+    return `renderHead() {
     return (
       <Head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link href="https://fonts.googleapis.com/css?family=${googleFont}" rel="stylesheet" />
+        ${googleFontLink}
       </Head>
     );
-  }\n`,
+  }\n`;
+  },
   renderFunc: `render() {
     const { Component, pageProps } = this.props;
     return (

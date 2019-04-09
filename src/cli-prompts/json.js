@@ -3,7 +3,10 @@ const jsonBuilder = async (options, cli) => {
 
   if (options.isCustomJSON) {
     options.packageJSON.name = options.name;
-    options.packageJSON.version = packageJSON.description = await cli.prompt(
+    options.packageJSON.version = options.description = await cli.prompt(
+      'version (0.0.0)',
+    );
+    options.packageJSON.description = options.description = await cli.prompt(
       'description',
     );
     options.packageJSON.main = options.server ? 'server.js' : 'index.js';
@@ -13,7 +16,7 @@ const jsonBuilder = async (options, cli) => {
       start: 'next start',
     };
     options.packageJSON.keywords = await cli.prompt('keywords');
-    options.packageJSON.keywords = packageJSON.keywords.split(' ');
+    options.packageJSON.keywords = options.packageJSON.keywords.split(',');
     options.packageJSON.author = await cli.prompt('author');
     options.packageJSON.license = await cli.prompt('license (ISC)');
   } else {

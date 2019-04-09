@@ -1,5 +1,6 @@
-const getDependencyStrings = modules => {
-  return modules ? '@zeit/next-css' : '';
+const getDependencyStrings = options => {
+  if (options.modules || options.normalize) return '@zeit/next-css';
+  else return '';
 };
 
 const writeFiles = (
