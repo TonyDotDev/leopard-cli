@@ -1,27 +1,24 @@
 # leopard-cli
 
-Leopard CLI is a tool for setting up your dev environment with one command so that you can get coding faster 🐆⚡💻.
+Leopard CLI is a tool for setting up your dev environment with one command so that you can get coding faster 🐆 ⚡💻
+
+# install
+
+npm i -g leopard-cli
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/leopard-cli.svg)](https://npmjs.org/package/leopard-cli)
-[![CircleCI](https://circleci.com/gh/NeverEnder4/leopard-cli/tree/master.svg?style=shield)](https://circleci.com/gh/NeverEnder4/leopard-cli/tree/master)
 [![Downloads/week](https://img.shields.io/npm/dw/leopard-cli.svg)](https://npmjs.org/package/leopard-cli)
 [![License](https://img.shields.io/npm/l/leopard-cli.svg)](https://github.com/NeverEnder4/leopard-cli/blob/master/package.json)
 
-<!-- toc -->
-
 - [Usage](#usage)
 - [Commands](#commands)
-  <!-- tocstop -->
 
 # Usage
-
-<!-- usage -->
 
 ```sh-session
 $ npm install -g leopard-cli
 $ leopard COMMAND
-running command...
 $ leopard (-v|--version|version)
 leopard-cli/0.0.0 win32-x64 node-v10.6.0
 $ leopard --help [COMMAND]
@@ -30,30 +27,34 @@ USAGE
 ...
 ```
 
-<!-- usagestop -->
-
 # Commands
 
-<!-- commands -->
-
-- [`leopard next PROJECTNAME`](#leopard-next)
+- [`leopard next project-name`](#leopard-next)
 - [`leopard help [COMMAND]`](#leopard-help-command)
 
 ## `leopard next`
 
-Describe the command here
+Set up a NextJS project with custom settings. Creates all necessary directories and files to facilitate any options specified via command flags.
 
 ```
 USAGE
-  $ leopard next PROJECTNAME
+  $ leopard next project-name
 
 OPTIONS
-  -s, --server  Sets up and runs your NextJS project from a custom Express server.
-  -c, --css=PREPROCESSOR  Set up your project with your favorite preprocessor, accepts these arguments (sass).
+  -s, --server
+  Preload and server your project from a custom express server.
 
-DESCRIPTION
-  ...
-  Extra documentation goes here
+  -c, --css=stylus
+  Preload your project with sass, less or stylus.
+
+  -g, --googleFont=Roboto:200,400,800+Poppins:400,800
+  Create a custom _app.js page with Google fonts preloaded at specified weights using a  link tag.
+
+  -n, --normalize
+  Create a custom _app.js page and setup CSS modules to facilitate normalize.css import on _app.js page.
+
+  -m, -modules
+  Set up CSS modules in a next.config.js file.
 ```
 
 _See code: [src\commands\next.js](https://github.com/NeverEnder4/leopard-cli/blob/v0.0.0/src\commands\next.js)_
@@ -74,5 +75,3 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.1.6/src\commands\help.ts)_
-
-<!-- commandsstop -->

@@ -10,25 +10,11 @@ const nextFileInjections = {
       options.css === ''
         ? '<style jsx global>{`\nbody {\npadding: 0;\nmargin: 0;\ntext-align: center;\ncolor: #121212;\n}\nheader {\nbackground-color: #FFC661;\nheight: 25vh;\nwidth: 100%;\ndisplay: flex;\njustify-content: center;\nalign-items: center;\nborder-bottom: 20px solid #6d6daa;\n}\n\nimg {\nwidth: 40%;\nmin-width: 400px;\ndisplay: block\n}\n\nh1 {\n font-size: 3.5rem;\ncolor: #6D6DAA;\nmargin: 6rem 0 1rem 0;\n}\n\nh2 {\nfont-size: 2.25rem;\ncolor: #6D6DAA;\nmargin: 5rem 0 1rem 0;\n}\n\na {\ntext-decoration: underline;\ntext-decoration-style: dotted;\ncolor: #6D6DAA;\n}\n\nul {\npadding: 0;\nmargin: 0;\nlist-style-type: none;\nline-height: 160%;\nfont-size: 1.5rem;\n}\n\n.instructions {\nline-height: 160%;\n}\n\n`}</style>'
         : '';
-    return `const index = () => (
-    <div>
-      <header>
-        <img src='https://apettigrew.imgix.net/leopard-cli/logo.svg'/>
-      </header>
-      <h1>${[options.name]}</h1>
-      <ul>
-        <li>To learn more about leopard-cli, check out our <a href='#'>docs</a>.</li>
-        <li>Curious as to what tools you get out of the box with <a href='#'>NextJS</a>?</li>
-        <h2>To start your project from the command line:</h2>
-          <ul className="instructions">
-            <li>cd ${options.name}</li>
-            <li>npm run dev</li>
-            <li>For more scripts, check out your package.json file</li>
-          </ul>
-      </ul>
-      ${cssInJsx}
-    </div>
-  );\nexport default index;`;
+    return `const index = () => (\n<div>\n\t<header>\n\t\t<img src='https://apettigrew.imgix.net/leopard-cli/logo.svg'/>\n\t</header>\n\t<h1>${
+      options.name
+    }</h1>\n\t<ul>\n\t\t<li>To learn more about leopard-cli, check out our <a href='#'>docs</a>.</li>\n\t\t<li>Curious as to what tools you get out of the box with <a href='#'>NextJS</a>?</li>\n\t\t<h2>To start your project from the command line:</h2>\n\t\t<ul className="instructions">\n\t\t\t<li>cd ${
+      options.name
+    }</li>\n\t\t\t<li>npm run dev</li>\n\t\t\t<li>For more scripts, check out your package.json file</li>\n\t\t</ul>\n\t</ul>\n\t${cssInJsx}\n</div>\n);\n\nexport default index;`;
   },
 };
 
@@ -76,13 +62,6 @@ const nextConfigFileInjections = {
         break;
     }
 
-    console.log(
-      options.modules,
-      options.css,
-      options.normalize,
-      exportPreProcessor,
-    );
-
     const exportConfig =
       options.modules || options.normalize
         ? `withCss(${exportPreProcessor})`
@@ -92,77 +71,15 @@ const nextConfigFileInjections = {
 };
 
 const preProcessorFileInjections = {
-  css: `body {
-      padding: 0;
-      margin: 0;
-      text-align: center;
-      color: #121212;
-      }
-      header {
-      background-color: #FFC661;
-      height: 25vh;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-bottom: 20px solid #6d6daa;
-      }
-      
-      img {
-      width: 40%;
-      min-width: 400px;
-      display: block
-      }
-      
-      h1 {
-      font-size: 3.5rem;
-      color: #6D6DAA;
-      margin: 6rem 0 1rem 0;
-      }
-      
-      h2 {
-      font-size: 2.25rem;
-      color: #6D6DAA;
-      margin: 5rem 0 1rem 0;
-      }
-      
-      a {
-      text-decoration: underline;
-      text-decoration-style: dotted;
-      color: #6D6DAA;
-      }
-      
-      ul {
-      padding: 0;
-      margin: 0;
-      list-style-type: none;
-      line-height: 160%;
-      font-size: 1.5rem;
-      }
-      
-      .instructions {
-      line-height: 160%;
-    }`,
+  css: `body {\n\tpadding: 0;\n\tmargin: 0;\n\ttext-align: center;\n\tcolor: #121212;\n}\n\nheader {\n\tbackground-color: #FFC661;\n\theight: 25vh;\n\twidth: 100%;\n\tdisplay: flex;\n\tjustify-content: center;\n\talign-items: center;\n\tborder-bottom: 20px solid #6d6daa;\n}\n\nimg {\n\twidth: 40%;\n\tmin-width: 400px;\n\tdisplay: block\n}\n\nh1 {     \n\tfont-size: 3.5rem;\n\tcolor: #6D6DAA;\n\tmargin: 6rem 0 1rem 0;\n}\n\nh2 {\n\tfont-size: 2.25rem;\n\tcolor: #6D6DAA;\n\tmargin: 5rem 0 1rem 0;\n}\n\na {\n\ttext-decoration: underline;\n\ttext-decoration-style: dotted;\n\tcolor: #6D6DAA;\n}\n\nul {\n\tpadding: 0;\n\tmargin: 0;\n\tlist-style-type: none;\n\tline-height: 160%;\n\tfont-size: 1.5rem;\n}
+  \n\n.instructions {\n\tline-height: 160%;\n}`,
 };
 
 const expressFileInjections = {
   import: `const express = require('express');\nconst next = require('next')\n\n`,
   variables: `const dev = process.env.NODE_ENV !== 'production';\nconst port = process.env.port || 3000;\nconst app = next({ dev });\nconst handle = app.getRequestHandler()\n\n;
 `,
-  serverJS: `app.prepare().then(() => {
-    const server = express();
-
-    // **middleware and routes go here**
-
-    server.get('*', (req, res) => {
-      return handle(req, res);
-    })
-
-    server.listen(port, err => {
-      if (err) throw err;
-      console.log('Listening on PORT ' + port);
-    });
-  });`,
+  serverJS: `app.prepare().then(() => {\n\tconst server = express();\n\t// **middleware and routes go here**\n\tserver.get('*', (req, res) => {\n\t\treturn handle(req, res);\n\t})\n\tserver.listen(port, err => {\n\t\tif (err) throw err;\n\t\tconsole.log('Listening on PORT ' + port);\n\t});\n});`,
 };
 
 const appJSFileInjections = {
@@ -170,39 +87,14 @@ const appJSFileInjections = {
     const normalizeImport = normalize ? `import 'normalize.css';` : '';
     return `import App, { Container } from 'next/app';\nimport Head from 'next/head';\n${normalizeImport}\n\n`;
   },
-  appComponent: `export default class myApp extends App {
-    static async getInitialProps({ Component, ctx }) {
-      let pageProps = {};
-
-      if (Component.getInitialProps) {
-        pageProps = await Component.getInitialProps(ctx);
-      }
-      return { pageProps };
-    }\n`,
+  appComponent: `export default class myApp extends App {\n\tstatic async getInitialProps({ Component, ctx }) {\n\t\tlet pageProps = {};\n\t\tif (Component.getInitialProps) {\n\t\t\tpageProps = await Component.getInitialProps(ctx);\n\t\t}\n\treturn { pageProps };\n}\n`,
   renderHeadFunc: googleFont => {
     const googleFontLink = googleFont
       ? `<link href="https://fonts.googleapis.com/css?family=${googleFont}" rel="stylesheet" />`
       : '';
-    return `renderHead() {
-    return (
-      <Head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        ${googleFontLink}
-      </Head>
-    );
-  }\n`;
+    return `\n\n\trenderHead() {\n\t\treturn (\n\t\t\t<Head>\n\t\t\t\t<meta charSet="UTF-8" />\n\t\t\t\t<meta name="viewport" content="width=device-width, initial-scale=1.0" />\n\t\t\t\t${googleFontLink}\n\t\t\t</Head>\n\t\t);\n\t};`;
   },
-  renderFunc: `render() {
-    const { Component, pageProps } = this.props;
-    return (
-      <Container>
-        {this.renderHead()}
-        <Component {...pageProps} />
-        </Container>
-    );
-  }
-}`,
+  renderFunc: `\n\n\trender() {\n\t\tconst { Component, pageProps } = this.props;\n\t\treturn (\n\t\t\t<Container>\n\t\t\t{this.renderHead()}   \n\t\t\t<Component {...pageProps} />\n\t\t</Container>\n\t\t);\n\t}\n};`,
 };
 
 module.exports = {

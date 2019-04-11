@@ -81,7 +81,8 @@ startNext = (cli, shell, options, selectBrowserCommand) => {
       options.name
     }\nnpm run dev\n\nThank you for choosing leopard-cli 🐆⚡💻`,
   );
-  shell.exec(browserScript).exec('npm run dev');
+  shell.exec(browserScript);
+  shell.exec('npm run dev');
 };
 
 module.exports = {
