@@ -59,7 +59,7 @@ Next.flags = {
     description: 'Sets up a css preprocessor for your project',
     multiple: false,
     default: '',
-    options: ['sass'],
+    options: ['sass', 'stylus', 'less'],
     required: false,
   }),
   server: flags.boolean({

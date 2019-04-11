@@ -9,6 +9,11 @@ const json = {
     author: '',
     license: 'ISC',
   },
+  defaultOptions: {
+    name: 'name',
+    server: false,
+    isCustomJSON: false,
+  },
 };
 
 module.exports = {

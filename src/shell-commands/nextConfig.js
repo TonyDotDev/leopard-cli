@@ -6,15 +6,11 @@ const getDependencyStrings = options => {
 const writeFiles = (
   shell,
   options,
-  sassFileInjection,
+  preProcessorFileInjections,
   configFileInjections,
 ) => {
   shell.cd('../');
-  if (options.css === 'sass') {
-    shell.cd('scss');
-    shell.ShellString(sassFileInjection.indexSCSS).to('index.scss');
-    shell.cd('../');
-  }
+  writePreProcessorFile(shell, options.css, preProcessorFileInjections);
   if (options.modules || options.normalize || options.css) {
     shell
       .ShellString(
@@ -22,6 +18,24 @@ const writeFiles = (
           configFileInjections.export(options),
       )
       .to('next.config.js');
+  }
+};
+
+const writePreProcessorFile = (shell, css, preProcessorFileInjections) => {
+  if (css === 'sass') {
+    shell.cd('scss');
+    shell.ShellString(preProcessorFileInjections.css).to('index.scss');
+    shell.cd('../');
+  }
+  if (css === 'less') {
+    shell.cd('less');
+    shell.ShellString(preProcessorFileInjections.css).to('index.less');
+    shell.cd('../');
+  }
+  if (css === 'stylus') {
+    shell.cd('stylus');
+    shell.ShellString(preProcessorFileInjections.css).to('index.styl');
+    shell.cd('../');
   }
 };
 

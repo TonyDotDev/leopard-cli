@@ -3,12 +3,8 @@ const jsonBuilder = async (options, cli) => {
 
   if (options.isCustomJSON) {
     options.packageJSON.name = options.name;
-    options.packageJSON.version = options.description = await cli.prompt(
-      'version (0.0.0)',
-    );
-    options.packageJSON.description = options.description = await cli.prompt(
-      'description',
-    );
+    options.packageJSON.version = await cli.prompt('version (0.0.0)');
+    options.packageJSON.description = await cli.prompt('description');
     options.packageJSON.main = options.server ? 'server.js' : 'index.js';
     options.packageJSON.scripts = {
       dev: options.server ? 'node server.js' : 'next',

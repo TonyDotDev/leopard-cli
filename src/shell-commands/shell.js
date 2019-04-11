@@ -1,5 +1,5 @@
 const {
-  sassFileInjections,
+  preProcessorFileInjections,
   nextConfigFileInjections,
   nextFileInjections,
   expressFileInjections,
@@ -35,15 +35,16 @@ const createDirectories = (cli, shell, options) => {
   cli.action.start(`Creating directories`);
   shell.mkdir('components');
   shell.mkdir('pages');
-  preProcessor.createDirectoriesAndFiles(shell, options.css);
+  preProcessor.createDirectories(shell, options.css);
   cli.action.stop();
 };
 
 const writeFiles = (cli, shell, options) => {
   cli.action.start(`Writing files`);
-  const scssImportStatement =
-    options.css === 'sass' ? sassFileInjections.import : '';
-  const indexPage = scssImportStatement + nextFileInjections.indexJS(options);
+
+  const indexPage =
+    nextFileInjections.preProcessorFileImport(options.css) +
+    nextFileInjections.indexJS(options);
   shell.cd('pages');
   shell.ShellString(indexPage).to('index.js');
   appPage.writeFiles(
@@ -55,7 +56,7 @@ const writeFiles = (cli, shell, options) => {
   nextConfig.writeFiles(
     shell,
     options,
-    sassFileInjections,
+    preProcessorFileInjections,
     nextConfigFileInjections,
   );
   express.writeFiles(shell, options.server, expressFileInjections);

@@ -1,4 +1,10 @@
 const nextFileInjections = {
+  preProcessorFileImport: css => {
+    if (css === 'sass') return `import '../scss/index.scss';\n\n`;
+    if (css === 'less') return `import '../less/index.less';\n\n`;
+    if (css === 'stylus') return `import '../stylus/index.styl';\n\n`;
+    else return '';
+  },
   indexJS: options => {
     const cssInJsx =
       options.css === ''
@@ -34,6 +40,14 @@ const nextConfigFileInjections = {
         importPreProcessor = `const withSass = require('@zeit/next-sass');`;
         break;
 
+      case 'less':
+        importPreProcessor = `const withLess = require('@zeit/next-less');`;
+        break;
+
+      case 'stylus':
+        importPreProcessor = `const withStylus = require('@zeit/next-stylus');`;
+        break;
+
       default:
         importPreProcessor = '';
         break;
@@ -49,6 +63,12 @@ const nextConfigFileInjections = {
     switch (options.css) {
       case 'sass':
         exportPreProcessor = `withSass()`;
+        break;
+      case 'less':
+        exportPreProcessor = `withLess()`;
+        break;
+      case 'stylus':
+        exportPreProcessor = `withStylus()`;
         break;
 
       default:
@@ -71,9 +91,8 @@ const nextConfigFileInjections = {
   },
 };
 
-const sassFileInjections = {
-  import: `import '../scss/index.scss';\n\n`,
-  indexSCSS: `body {
+const preProcessorFileInjections = {
+  css: `body {
       padding: 0;
       margin: 0;
       text-align: center;
@@ -187,7 +206,7 @@ const appJSFileInjections = {
 };
 
 module.exports = {
-  sassFileInjections,
+  preProcessorFileInjections,
   nextConfigFileInjections,
   nextFileInjections,
   expressFileInjections,
