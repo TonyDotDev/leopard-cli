@@ -43,7 +43,7 @@ Adding flags to the basic command will change the folder structure to support th
   - package.json
   - server.js
 
-### installation
+### Installation
 
 Make sure to have NodeJS installed on your machine.
 
@@ -53,7 +53,7 @@ To check if Node is installed, run:
 To install leopard-cli as a global command:
 `npm i -g leopard-cli`
 
-### commands
+### Commands
 
 ###### `leopard next`
 
@@ -106,8 +106,8 @@ Tony Pettigrew
 Contributors END -->
 <!-- Contributors table START -->
 
-| <img src="https://avatars.githubusercontent.com/neverender4?s=100" width="100" alt="Tony Pettigrew" /><br />[<sub>Tony Pettigrew</sub>](https://neverender4.github.io)<br /> |
-| :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| <img src="https://avatars.githubusercontent.com/neverender4?s=100" width="100" alt="Tony Pettigrew" /><br />[<sub>Tony Pettigrew</sub>](https://www.linkedin.com/in/tony-pettigrew-6b659455/)<br /> |
+| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 
 
 <!-- Contributors table END -->
