@@ -1,38 +1,61 @@
 # leopard-cli
 
-Leopard CLI is a tool for setting up your dev environment with one command so that you can get coding faster 🐆 ⚡💻
-
-# install
-
-npm i -g leopard-cli
-
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/leopard-cli.svg)](https://npmjs.org/package/leopard-cli)
 [![Downloads/week](https://img.shields.io/npm/dw/leopard-cli.svg)](https://npmjs.org/package/leopard-cli)
 [![License](https://img.shields.io/npm/l/leopard-cli.svg)](https://github.com/NeverEnder4/leopard-cli/blob/master/package.json)
 
-- [Usage](#usage)
+- [The Motivation](#the-motivation)
+- [How Things Work](#how-things-work)
 - [Commands](#commands)
+  - [leopard next](#leopard-next)
+  - [leopard help](#leopard-help)
+- [About Me](#about-me)
+- [License](#license)
 
-# Usage
+### 🐆⚡💻 The Motivation
 
-```sh-session
-$ npm install -g leopard-cli
-$ leopard COMMAND
-$ leopard (-v|--version|version)
-leopard-cli/0.0.0 win32-x64 node-v10.6.0
-$ leopard --help [COMMAND]
-USAGE
-  $ leopard COMMAND
-...
-```
+Setting up a NextJS project can be just cumbersome enough to distract you from the work at hand. Sometimes, during that process, things can go wrong and now you're stuck debugging an environment that you've set up many times before. What if you could set up a complex, ready to dev project with one command (and a few --flags)? Now you can!
 
-# Commands
+### 🧠💥💡 How Things Work
 
-- [`leopard next project-name`](#leopard-next)
-- [`leopard help [COMMAND]`](#leopard-help-command)
+Underneath the hood, leopard-cli is built on [oclif](https://github.com/oclif/oclif) and uses [shelljs](https://github.com/shelljs/shelljs) for universal shell commands. When you issue the most basic command -- `leopard next project-name` -- a new project directory will be created with the following folder structure:
 
-## `leopard next`
+- project-name/
+  - .next/
+  - components/
+  - pages/
+    - index.js
+  - package-lock.json
+  - package.json
+
+Adding flags to the basic command will change the folder structure to support the specified configuration. For example, if you run `leopard next project-name --css=stylus --server` the folder structure will now look like this:
+
+- project-name/
+  - .next/
+  - components/
+  - pages/
+    - index.js
+  - stylus/
+    - index.styl
+  - next.config.js
+  - package-lock.json
+  - package.json
+  - server.js
+
+### installation
+
+Make sure to have NodeJS installed on your machine.
+
+To check if Node is installed, run:
+`--v node`
+
+To install leopard-cli as a global command:
+`npm i -g leopard-cli`
+
+### commands
+
+###### `leopard next`
 
 Set up a NextJS project with custom settings. Creates all necessary directories and files to facilitate any options specified via command flags.
 
@@ -59,7 +82,7 @@ OPTIONS
 
 _See code: [src\commands\next.js](https://github.com/NeverEnder4/leopard-cli/blob/v0.0.0/src\commands\next.js)_
 
-## `leopard help [COMMAND]`
+###### `leopard help`
 
 display help for leopard
 
@@ -75,3 +98,30 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.1.6/src\commands\help.ts)_
+
+### About Me
+
+<!-- Contributors START
+Tony Pettigrew
+Contributors END -->
+<!-- Contributors table START -->
+
+| <img src="https://avatars.githubusercontent.com/neverender4?s=100" width="100" alt="Tony Pettigrew" /><br />[<sub>Tony Pettigrew</sub>](https://neverender4.github.io)<br /> |
+| :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+
+
+<!-- Contributors table END -->
+
+My journey into coding started about 1.5 years ago when I needed a website to showcase music that I had been producing. I wasn't satisfied with Wix or Squarespace at the time and decided that I should learn a little bit of web development so that I could put up a unique website that complimented my music. This lead me down a ginormous rabbit hole. In the following year, I would spend more time learning HTML, CSS, JS, data structures, databases, servers, JS frameworks, testing frameworks libraries, webpack, etc... than in my studio creating music. Currently, I am in the process of switching careers to a developer role and freelancing projects on the side. I still wake up, everyday, excited to learn something new!
+
+If you've actually read this far, thank you!
+
+### License
+
+© 2019 Tony Pettigrew
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
