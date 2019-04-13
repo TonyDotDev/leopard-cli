@@ -5,19 +5,20 @@
 [![Downloads/week](https://img.shields.io/npm/dw/leopard-cli.svg)](https://npmjs.org/package/leopard-cli)
 [![License](https://img.shields.io/npm/l/leopard-cli.svg)](https://github.com/NeverEnder4/leopard-cli/blob/master/package.json)
 
-- [The Motivation](#the-motivation)
-- [How Things Work](#how-things-work)
-- [Commands](#commands)
+- [The Motivation](#🐆-the-motivation)
+- [How Things Work](#💡-how-things-work)
+- [Installation](#⚡-installation)
+- [Commands](#💻-commands)
   - [leopard next](#leopard-next)
   - [leopard help](#leopard-help)
-- [About Me](#about-me)
-- [License](#license)
+- [About Me](#👋-about-me)
+- [License](#📜-license)
 
-### 🐆⚡💻 The Motivation
+### 🐆 The Motivation
 
 Setting up a NextJS project can be just cumbersome enough to distract you from the work at hand. Sometimes, during that process, things can go wrong and now you're stuck debugging an environment that you've set up many times before. What if you could set up a complex, ready to dev project with one command (and a few --flags)? Now you can!
 
-### 🧠💥💡 How Things Work
+### 💡 How Things Work
 
 Underneath the hood, leopard-cli is built on [oclif](https://github.com/oclif/oclif) and uses [shelljs](https://github.com/shelljs/shelljs) for universal shell commands. When you issue the most basic command -- `leopard next project-name` -- a new project directory will be created with the following folder structure:
 
@@ -43,7 +44,7 @@ Adding flags to the basic command will change the folder structure to support th
   - package.json
   - server.js
 
-### Installation
+### ⚡ Installation
 
 Make sure to have NodeJS installed on your machine.
 
@@ -53,7 +54,7 @@ To check if Node is installed, run:
 To install leopard-cli as a global command:
 `npm i -g leopard-cli`
 
-### Commands
+### 💻 Commands
 
 ###### `leopard next`
 
@@ -99,7 +100,7 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.1.6/src\commands\help.ts)_
 
-### About Me
+### 👋 About Me
 
 <!-- Contributors START
 Tony Pettigrew
@@ -114,9 +115,9 @@ Contributors END -->
 
 My journey into coding started about 1.5 years ago when I needed a website to showcase music that I had been producing. I wasn't satisfied with Wix or Squarespace at the time and decided that I should learn a little bit of web development so that I could put up a unique website that complimented my music. This lead me down a ginormous rabbit hole. In the following year, I would spend more time learning HTML, CSS, JS, data structures, databases, servers, JS frameworks, testing frameworks libraries, webpack, etc... than in my studio creating music. Currently, I am in the process of switching careers to a developer role and freelancing projects on the side. I still wake up, everyday, excited to learn something new!
 
-If you've actually read this far, thank you!
+If you've actually read this far, thank you! 😘
 
-### License
+### 📜 License
 
 © 2019 Tony Pettigrew
 
