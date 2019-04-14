@@ -8,11 +8,11 @@ const nextFileInjections = {
   indexJS: options => {
     const cssInJsx =
       options.css === ''
-        ? '<style jsx global>{`\nbody {\npadding: 0;\nmargin: 0;\ntext-align: center;\ncolor: #121212;\n}\nheader {\nbackground-color: #FFC661;\nheight: 25vh;\nwidth: 100%;\ndisplay: flex;\njustify-content: center;\nalign-items: center;\nborder-bottom: 20px solid #6d6daa;\n}\n\nimg {\nwidth: 40%;\nmin-width: 400px;\ndisplay: block\n}\n\nh1 {\n font-size: 3.5rem;\ncolor: #6D6DAA;\nmargin: 6rem 0 1rem 0;\n}\n\nh2 {\nfont-size: 2.25rem;\ncolor: #6D6DAA;\nmargin: 5rem 0 1rem 0;\n}\n\na {\ntext-decoration: underline;\ntext-decoration-style: dotted;\ncolor: #6D6DAA;\n}\n\nul {\npadding: 0;\nmargin: 0;\nlist-style-type: none;\nline-height: 160%;\nfont-size: 1.5rem;\n}\n\n.instructions {\nline-height: 160%;\n}\n\n`}</style>'
+        ? '<style jsx global>{`\nbody {\npadding: 0;\nmargin: 0;\ntext-align: center;\ncolor: #121212;\n}\nheader {\nbackground-color: #bbc4ef;\nheight: 25vh;\nwidth: 100%;\ndisplay: flex;\njustify-content: center;\nalign-items: center;\nborder-bottom: 20px solid #6d6daa;\n}\n\nimg {\nwidth: 40%;\nmin-width: 400px;\ndisplay: block\n}\n\nh1 {\n font-size: 3.5rem;\ncolor: #6D6DAA;\nmargin: 6rem 0 1rem 0;\n}\n\nh2 {\nfont-size: 2.25rem;\ncolor: #6D6DAA;\nmargin: 5rem 0 1rem 0;\n}\n\na {\ntext-decoration: underline;\ntext-decoration-style: dotted;\ncolor: #6D6DAA;\n}\n\nul {\npadding: 0;\nmargin: 0;\nlist-style-type: none;\nline-height: 160%;\nfont-size: 1.5rem;\n}\n\n.instructions {\nline-height: 160%;\n}\n\n`}</style>'
         : '';
     return `const index = () => (\n<div>\n\t<header>\n\t\t<img src='https://apettigrew.imgix.net/leopard-cli/logo.svg'/>\n\t</header>\n\t<h1>${
       options.name
-    }</h1>\n\t<ul>\n\t\t<li>To learn more about leopard-cli, check out our <a href='#'>docs</a>.</li>\n\t\t<li>Curious as to what tools you get out of the box with <a href='#'>NextJS</a>?</li>\n\t\t<h2>To start your project from the command line:</h2>\n\t\t<ul className="instructions">\n\t\t\t<li>cd ${
+    }</h1>\n\t<ul>\n\t\t<li>To learn more about leopard-cli, check out our <a href='https://github.com/NeverEnder4/leopard-cli'>docs</a>.</li>\n\t\t<li>Curious as to what tools you get out of the box with <a href='https://nextjs.org/docs/'>NextJS</a>?</li>\n\t\t<h2>To start your project from the command line:</h2>\n\t\t<ul className="instructions">\n\t\t\t<li>cd ${
       options.name
     }</li>\n\t\t\t<li>npm run dev</li>\n\t\t\t<li>For more scripts, check out your package.json file</li>\n\t\t</ul>\n\t</ul>\n\t${cssInJsx}\n</div>\n);\n\nexport default index;`;
   },
@@ -71,7 +71,7 @@ const nextConfigFileInjections = {
 };
 
 const preProcessorFileInjections = {
-  css: `body {\n\tpadding: 0;\n\tmargin: 0;\n\ttext-align: center;\n\tcolor: #121212;\n}\n\nheader {\n\tbackground-color: #FFC661;\n\theight: 25vh;\n\twidth: 100%;\n\tdisplay: flex;\n\tjustify-content: center;\n\talign-items: center;\n\tborder-bottom: 20px solid #6d6daa;\n}\n\nimg {\n\twidth: 40%;\n\tmin-width: 400px;\n\tdisplay: block\n}\n\nh1 {     \n\tfont-size: 3.5rem;\n\tcolor: #6D6DAA;\n\tmargin: 6rem 0 1rem 0;\n}\n\nh2 {\n\tfont-size: 2.25rem;\n\tcolor: #6D6DAA;\n\tmargin: 5rem 0 1rem 0;\n}\n\na {\n\ttext-decoration: underline;\n\ttext-decoration-style: dotted;\n\tcolor: #6D6DAA;\n}\n\nul {\n\tpadding: 0;\n\tmargin: 0;\n\tlist-style-type: none;\n\tline-height: 160%;\n\tfont-size: 1.5rem;\n}
+  css: `body {\n\tpadding: 0;\n\tmargin: 0;\n\ttext-align: center;\n\tcolor: #121212;\n}\n\nheader {\n\tbackground-color: #bbc4ef;\n\theight: 25vh;\n\twidth: 100%;\n\tdisplay: flex;\n\tjustify-content: center;\n\talign-items: center;\n\tborder-bottom: 20px solid #6d6daa;\n}\n\nimg {\n\twidth: 40%;\n\tmin-width: 400px;\n\tdisplay: block\n}\n\nh1 {     \n\tfont-size: 3.5rem;\n\tcolor: #6D6DAA;\n\tmargin: 6rem 0 1rem 0;\n}\n\nh2 {\n\tfont-size: 2.25rem;\n\tcolor: #6D6DAA;\n\tmargin: 5rem 0 1rem 0;\n}\n\na {\n\ttext-decoration: underline;\n\ttext-decoration-style: dotted;\n\tcolor: #6D6DAA;\n}\n\nul {\n\tpadding: 0;\n\tmargin: 0;\n\tlist-style-type: none;\n\tline-height: 160%;\n\tfont-size: 1.5rem;\n}
   \n\n.instructions {\n\tline-height: 160%;\n}`,
 };
 

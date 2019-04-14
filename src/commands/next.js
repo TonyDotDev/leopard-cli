@@ -4,6 +4,8 @@ const shell = require('shelljs');
 
 const shellCommands = require('../shell-commands/shell');
 const json = require('../cli-prompts/json');
+
+shell.config.silent = true;
 class Next extends Command {
   async run() {
     const { name } = this.parse(Next).args;
